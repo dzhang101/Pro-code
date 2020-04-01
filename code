@@ -56,8 +56,8 @@ class dndoneshotgenerator:
         return self.dnd_board
 
 
-game_name1 = input('What is the name of the game : ')
-game = dndoneshotgenerator(game_name1)
+game_name_user_input = input('What is the name of the game : ')
+game = dndoneshotgenerator(game_name_user_input)
 
 game.create_party()
 
