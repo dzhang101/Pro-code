@@ -1,0 +1,67 @@
+import random
+import numpy as np
+
+
+class dndoneshotgenerator:
+
+    def __init__(self, game_name):
+        self.game_name = game_name
+        self.players = []
+        self.dnd_class = []
+        self.party_list = {}
+        self.dnd_board = [[], []]
+
+    def create_party(self):
+        player_name = ''
+        while player_name != 'done':
+            player_name = input('Please add a player to the game, type done to stop : ')
+            if player_name == 'done':
+                self.rand_dnd_party(self.players)
+                self.export_party_list()
+                break
+            self.add_players(player_name)
+
+    def rand_dnd_party(self, party):
+        classes = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue',
+                   'Sorcerer',
+                   'Warlock', 'Wizard']
+        self.dnd_class = random.choices(classes, k=len(party))
+        self.party_list = dict(zip(party, self.dnd_class))
+
+    def export_party_list(self):
+        file_name = ('party' + self.game_name)
+        with open(file_name, "w+") as outfile:
+            outfile.write("\n".join(self.players))
+
+    def add_players(self, names):
+        self.players.append(names)
+
+    def create_game_board(self, x, y):
+        a = 0
+
+        self.dnd_board = np.empty([y, x], dtype=object)
+
+        file = open('dnd_tiles.txt', "r")
+
+        for line in file:
+            tile_list = line.split(",")
+
+        while a < y:
+            b = 0
+            while b < x:
+                self.dnd_board[a, b] = str(random.choices(tile_list)).strip("['']")
+                if b == x - 1:
+                    a += 1
+                b += 1
+        return self.dnd_board
+
+
+game_name1 = input('What is the name of the game : ')
+game = dndoneshotgenerator(game_name1)
+
+game.create_party()
+
+print(game.players)
+print(game.party_list)
+
+print(game.create_game_board(2, 2))
